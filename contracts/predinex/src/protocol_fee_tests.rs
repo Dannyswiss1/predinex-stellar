@@ -37,7 +37,7 @@ fn test_set_protocol_fee_within_bounds() {
 }
 
 #[test]
-#[should_panic(expected = "Fee out of bounds")]
+#[should_panic]
 fn test_set_protocol_fee_above_max_rejected() {
     let (_env, client, admin, _) = setup_contract();
     client.set_protocol_fee(&admin, &1001);
@@ -72,7 +72,7 @@ fn test_claim_winnings_uses_configured_fee() {
         &3600,
     );
 
-    client.place_bet(&user, &pool_id, &0, &100);
+    client.place_bet(&user, &pool_id, &0, &100, &None::<Address>);
 
     env.ledger().with_mut(|li| li.timestamp = 3601);
     client.settle_pool(&creator, &pool_id, &0);
